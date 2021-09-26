@@ -9,7 +9,7 @@ let costoBaseAnilloAlpaca = precioBaseAnilloAlpaca * medidaAnillo
 let costoBaseAnilloPlata = precioBaseAnilloPlata * medidaAnillo
 let costoBaseAnilloOro  = precioBaseAnilloOro  * medidaAnillo
 
-if (material === 1 && medidaAnillo >=10 && medidaAnillo <=30  || material === 2 && medidaAnillo >=10 && medidaAnillo <=30  || material === 3 && medidaAnillo >=10 && medidaAnillo <=30 ) {
+if (medidaAnillo >=10 && medidaAnillo <=30) {
     if (material === 1){
         console.log(`${nombre} el costo de tu anillo de Alpaca, de ${medidaAnillo} milímetros de diámetro, será de $${costoBaseAnilloAlpaca}`);
     }
@@ -19,6 +19,9 @@ if (material === 1 && medidaAnillo >=10 && medidaAnillo <=30  || material === 2 
     else if (material === 3){
         console.log(`${nombre} el costo de tu anillo de Alpaca, de ${medidaAnillo} milímetros de diámetro, será de $${costoBaseAnilloOro}`);
     }
+    else{
+    console.log(`${nombre} se produjo un error, controla que el material ingresado sea el correcto.`);
+    }
 } else {
-    console.log(`${nombre} se produjo un error, controlá que el material o diámetro ingresado sea el correcto.`);
+    console.log(`${nombre} se produjo un error, controla que el diámetro ingresado sea el correcto.`);
     }
