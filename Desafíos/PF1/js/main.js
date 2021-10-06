@@ -118,13 +118,13 @@ class Gastronomia {
 //**************************************************************************************************************************** */
 
 ////////******** ADD UBICACIONES********* */
-let listaUbicaciones = [];
+const listaUbicaciones = [];
 
 //algunas ubicaciones y sus caracteristicas predefinidas, a futuro para ingresar por API
 
 const addUbicaciones = () => {
 
-    let ubicacion1 = new UbicacionSalida(
+    const ubicacion1 = new UbicacionSalida(
         "Córdoba",
         "CBA",
         "AR",
@@ -133,7 +133,7 @@ const addUbicaciones = () => {
     );
 
 
-    let ubicacion2 = new UbicacionDestino(
+    const ubicacion2 = new UbicacionDestino(
             "Villa maria",
             "CBA",
             "AR",
@@ -143,7 +143,7 @@ const addUbicaciones = () => {
     );
 
 
-    let ubicacion3 = new UbicacionDestino(
+    const ubicacion3 = new UbicacionDestino(
         "Rio gallegos",
         "Sta Cruz",
         "AR",
@@ -182,8 +182,8 @@ const listaTransporte = [];
 let addTransporte = () => {
     let cantidadTransporte = Number(prompt("¿En cuántos vehículos viajarán?"));
     let tipoTransporte = prompt("¿En qué tipo de vehículo viaja?");
-    let consumoPromedio = Number(prompt("¿Cuál es el consumo promedio de combustible del vehículo?"));
-    let capacidadTanque = Number(prompt("¿Cuál es la capacidad máxima del tanque de combustible de su vehículo?"));
+    let consumoPromedio = Number(prompt("¿Cuál es el consumo promedio de combustible del vehículo? en km/Litro"));
+    let capacidadTanque = Number(prompt("¿Cuál es la capacidad máxima del tanque de combustible de su vehículo? en Litros"));
     
     let transporte = new Transporte(tipoTransporte,cantidadTransporte,consumoPromedio,capacidadTanque);
     listaPersonas.push(transporte);
@@ -194,9 +194,10 @@ let addTransporte = () => {
 costoTransporte = (a,b,c) => {
     let cantidadCombustible = listaUbicaciones[2].km / b;
     let precioCombustible = 100;
-    let costoCombustible = cantidadCombustible * precioCombustible;
+    let costoCombustible = cantidadCombustible * precioCombustible * a;
+    let cantidadParadas = listaUbicaciones[2].km / (b * c);
 
-    console.log(`el costo en combustible para recorrer ${listaUbicaciones[2].km}km es de $${costoCombustible}, la temperatura para la ciudad de destino ${listaUbicaciones[2].ciudad} es de ${listaUbicaciones[2].temperatura}, ${listaUbicaciones[2].descrip} `);
+    console.log(`El costo en combustible para recorrer ${listaUbicaciones[2].km}km desde ${listaUbicaciones[0].ciudad} hacia ${listaUbicaciones[2].ciudad}en ${a} vehícuos es de $${costoCombustible}, deberá realizar aproximadamente ${cantidadParadas} paradas a cargar combustible. La temperatura en la ciudad de destino ${listaUbicaciones[2].ciudad} es de ${listaUbicaciones[2].temperatura}, ${listaUbicaciones[2].descrip} `);
 }
 
 addUbicaciones();
