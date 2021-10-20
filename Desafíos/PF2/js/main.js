@@ -166,7 +166,7 @@ const addUbicaciones = () => {
  *****************************************************************/
 
 const addCardsUbicaciones = () => {
-    
+
     let imprimirUbicaciones = document.getElementById("ubicacionesPrint")
     
     Ubicaciones.forEach(element => {
@@ -221,8 +221,8 @@ let addTransporte = () => {
         costoTransporte(cantidadTransporte,consumoPromedio,capacidadTanque);
     
     }else{
-        
         alert("Los números ingresados deben ser mayores o iguales a 1");
+        window.location.reload();
     }
 }
 
@@ -255,10 +255,11 @@ document.getElementById("btnCalcular").addEventListener("click", (e) => {
 
     e.preventDefault();
     
+    addUbicaciones();
+
     addTransporte();
     
     if (listaTransporte.length > 0) {
-        addUbicaciones();
         
         addCardsUbicaciones();
         

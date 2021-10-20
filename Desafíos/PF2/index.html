@@ -23,14 +23,13 @@
     <form action="" method="">
         
         <p>Ingresa la cantidad de vehiculos</p> 
-            <input type="text" id="cantidadVehiculos">
+            <input type="number" id="cantidadVehiculos" min="1">
         
-
         <p>Ingresa el consumo promedio de combustible, en km/L</p> 
-            <input type="text" id="consumoProm">
+            <input type="number" id="consumoProm" min="1">
 
         <p>Ingresa la capacidad del tanque de combustible, en L</p> 
-            <input type="text" id="capacidadTanque">
+            <input type="number" id="capacidadTanque" min="1">
 
         <button id="btnCalcular">Calcular costo de viaje</button>
     </form>
