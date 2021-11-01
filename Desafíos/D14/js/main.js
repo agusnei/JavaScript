@@ -228,29 +228,6 @@ mensaje = (a, b, c) => {
     document.getElementById("mostrarMSJ").style.color = "blue"
 }
 
-/////imprimir calculo de costo de transporte -----con JQUERY
-$("#btnCalcular").click( (e) => {
-    
-    $("#hide").hide(1000).slideUp(2000);
-
-    e.preventDefault();
-    
-    addUbicaciones();
-
-    addTransporte();
-    
-    if (listaTransporte.length > 0) {
-        
-        addFecha();
-        
-        addCardsUbicaciones();
-
-        addRefresh();
-        
-        $("#resultado").css({"background-color": "#B5B2B2"})
-    }
-});
-
 
 //llamada API OPEN WEATHER MAP ///////////
 
@@ -277,6 +254,9 @@ $.get(url_destino, (respuesta,estado) =>{
     }
 })
 
+
+
+
 /////API MAPS///
 /*
 AIzaSyCyx94zm8VkxnRCP4H2GZnfifVZYRni20Y
@@ -290,5 +270,37 @@ function initMap() {
     });
 
 }
+
+
+
+
+/////imprimir calculo de costo de transporte -----con JQUERY
+$("#btnCalcular").click( (e) => {
+    
+    $("#hide").hide(1000).slideUp(2000);
+
+    e.preventDefault();
+    
+    addUbicaciones();
+
+    addTransporte();
+    
+    if (listaTransporte.length > 0) {
+        
+        addFecha();
+        
+        addCardsUbicaciones();
+
+        initMap()
+
+        addRefresh();
+        
+        $("#resultado").css({"background-color": "#B5B2B2"})
+    }
+});
+
+
+
+
 
 
