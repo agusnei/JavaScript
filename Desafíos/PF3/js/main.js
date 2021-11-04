@@ -11,7 +11,32 @@
  *************************************************************************************************************************/
 
 ////************HORA-TIME de hoy***************** */
-let dateToday = new Date ()
+let dateToday = new Date().toLocaleDateString()
+
+//llamada API OPEN WEATHER MAP ///////////
+
+    const url_salida = "https://api.openweathermap.org/data/2.5/weather?id=3860259&appid=1f0970ebbcf9cb6e31d09ce38b27892b&units=metric&lang=sp"
+    const url_destino = "https://api.openweathermap.org/data/2.5/weather?id=7647007&appid=1f0970ebbcf9cb6e31d09ce38b27892b&units=metric&lang=sp"
+
+    $.get(url_salida, (respuesta,estado) =>{
+
+        if(estado == "success"){
+            const descripcion = respuesta.weather[0].description;
+            localStorage.setItem("descripcionSalida",descripcion)
+            const temperatura = respuesta.main.temp;
+            localStorage.setItem("temperaturaSalida",temperatura)
+        }
+    })
+
+    $.get(url_destino, (respuesta,estado) =>{
+
+        if(estado == "success"){
+            const descripcion = respuesta.weather[0].description;
+            localStorage.setItem("descripcionDestino",descripcion)
+            const temperatura = respuesta.main.temp;
+            localStorage.setItem("temperaturaDestino",temperatura)
+        }
+    })
 
 
 ////*************UBICACIONES**************** */
@@ -99,7 +124,7 @@ const addRefresh = () => {
     
     refresh.html(
         `
-        <button onClick="window.location.reload();" >Comenzar de nuevo</button>
+        <button class="btn btn-secondary" onClick="window.location.reload();" >Comenzar de nuevo</button>
         `
         );    
 }
@@ -140,6 +165,29 @@ const addUbicaciones = () => {
 
 
 /*******************************************************************************
+ *          ADD HTML 
+ *****************************************************************/
+
+const addHtml = () => {
+    let addHtml = document.getElementById("resultado")
+
+    addHtml.innerHTML = `
+        <div class="container">
+        <div class="row justify-content-md-center" id="ubicacionesPrint">
+        </div>
+        </div> 
+        <div id="fechaPrint" class="text-center">
+        </div>
+        <div id="mostrarMSJ">
+        </div>
+        <div class="container text-center" id="btnRefresh">
+        </div>
+    `
+}
+
+
+
+/*******************************************************************************
  *          CARDS UBICACIONES 
  *****************************************************************/
 
@@ -147,20 +195,36 @@ const addCardsUbicaciones = () => {
 
     let imprimirUbicaciones = document.getElementById("ubicacionesPrint")
     
-    Ubicaciones.forEach(element => {
+    imprimirUbicaciones.innerHTML = `
+        <div class="col-md-4">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6626480.194937866!2d-68.75046613364366!3d-35.667912555898084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x961a7b1520c860e5%3A0x8210ae97cb7b9a65!2sSan%20Carlos%20de%20Bariloche%2C%20R%C3%ADo%20Negro!5e0!3m2!1ses!2sar!4v1635985528324!5m2!1ses!2sar" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    `    
     
-        imprimirUbicaciones.innerHTML += `
-        <div class="card col-4" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">${element.ciudad}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">${element.provincia}</h6>
-            <h6 class="card-subtitle mb-2 text-muted">${element.pais}</h6>
-            <h6 class="card-text">${element.temperatura}</h6>
-        </div>
-        </div>
-        `
-    });
+    Ubicaciones.forEach(element => {
+        
+        addImg = 0
+        switch(element.ciudad){
+            case "Córdoba": addImg = `img/cordoba.jpg`;
+            break;
+            case "San Carlos de Bariloche": addImg = `img/bariloche.jpg`;
+            break;
+        }  
 
+        imprimirUbicaciones.innerHTML += `
+            <div class="col-md-4">
+                <div class="card" id="cardCampos">
+                        <img src="${addImg}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">${element.ciudad}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${element.provincia}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">${element.pais}</h6>
+                        <h6 class="card-text">Temperatura actual: ${element.temperatura}ºC</h6>
+                    </div>
+                </div>
+            </div>
+        `    
+    });
 }
 
 
@@ -218,41 +282,18 @@ costoTransporte = (a,b,c) => {
 mensaje = (a, b, c) => {
     let ubicaciones = JSON.parse(localStorage.getItem("ubicaciones"))
 
-    const mostrarMSJ = document.createElement("h3");
+    const mostrarMSJ = document.createElement("h5");
 
     mostrarMSJ.setAttribute("id","msjAgregado");
 
-    mostrarMSJ.textContent = `El costo en combustible para recorrer ${ubicaciones[1].km}km desde ${ubicaciones[0].ciudad} hacia ${ubicaciones[1].ciudad} en ${c} vehículos es de $${a}, deberá realizar aproximadamente ${b} paradas a cargar combustible. La temperatura en la ciudad de destino ${ubicaciones[1].ciudad} es de ${ubicaciones[1].temperatura} ºC, ${ubicaciones[1].descrip} `;
+    mostrarMSJ.textContent = `El costo en combustible para recorrer ${ubicaciones[1].km}km desde ${ubicaciones[0].ciudad} hacia ${ubicaciones[1].ciudad} en ${c} vehículos es de $${a}, deberá realizar aproximadamente ${b} paradas a cargar combustible.
+    La temperatura en la ciudad de destino ${ubicaciones[1].ciudad} es de ${ubicaciones[1].temperatura} ºC (${ubicaciones[1].descrip}) `;
 
     document.getElementById("mostrarMSJ").appendChild(mostrarMSJ);
-    document.getElementById("mostrarMSJ").style.color = "blue"
 }
 
 
-//llamada API OPEN WEATHER MAP ///////////
 
-const url_salida = "https://api.openweathermap.org/data/2.5/weather?id=3860259&appid=1f0970ebbcf9cb6e31d09ce38b27892b&units=metric&lang=sp"
-const url_destino = "https://api.openweathermap.org/data/2.5/weather?id=7647007&appid=1f0970ebbcf9cb6e31d09ce38b27892b&units=metric&lang=sp"
-
-$.get(url_salida, (respuesta,estado) =>{
-
-    if(estado == "success"){
-        const descripcion = respuesta.weather[0].description;
-        localStorage.setItem("descripcionSalida",descripcion)
-        const temperatura = respuesta.main.temp;
-        localStorage.setItem("temperaturaSalida",temperatura)
-    }
-})
-
-$.get(url_destino, (respuesta,estado) =>{
-
-    if(estado == "success"){
-        const descripcion = respuesta.weather[0].description;
-        localStorage.setItem("descripcionDestino",descripcion)
-        const temperatura = respuesta.main.temp;
-        localStorage.setItem("temperaturaDestino",temperatura)
-    }
-})
 
 
 
@@ -260,26 +301,28 @@ $.get(url_destino, (respuesta,estado) =>{
 /////API MAPS///
 /*
 AIzaSyCyx94zm8VkxnRCP4H2GZnfifVZYRni20Y
-*/
 let map;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -31.417, lng: -64.183 },
-    zoom: 8,
+        center: { lat: -31.417, lng: -64.183 },
+        zoom: 8,
     });
 }
 
+*/
 
 
 
 /////imprimir calculo de costo de transporte -----con JQUERY
 $("#btnCalcular").click( (e) => {
-    
+        
     $("#hide").hide(1000).slideUp(2000);
 
     e.preventDefault();
-    
+
+    addHtml();
+
     addUbicaciones();
 
     addTransporte();
@@ -290,11 +333,10 @@ $("#btnCalcular").click( (e) => {
         
         addCardsUbicaciones();
 
-        initMap()
-
         addRefresh();
         
-        $("#resultado").css({"background-color": "#B5B2B2"})
+        /*initMap()*/
+
     }
 });
 

@@ -1,0 +1,50 @@
+#btnCalcular{
+    width: 250px;
+    height: 50px;
+}
+
+#btnRefresh{
+    width: 250px;
+    height: 50px;
+}
+
+#map {
+    height: 600px;
+    width: 600px;
+}
+
+#formulario{
+    height: 90vh;
+}
+
+#resultado{
+    height: 90vh;
+}
+
+body{
+    background-image: url(../img/fondo.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    margin: 25px;
+}
+
+#cardCampos{
+    background-color: rgba(0, 0, 0, 0.445);
+}
+
+h5{
+    color: white;
+}
+
+h6{
+    color: white;
+}
+
+#tituloCardCampos, #fechaPrint{
+    color: white;
+}
+
+.card img{
+    height: 200px;
+}
